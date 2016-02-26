@@ -4,7 +4,16 @@
               auto-mode-alist))
 
 (require-package 'pip-requirements)
+(require-package 'pyvenv)
 
+
+
+;;; Python shell commands
+(setq-default python-check-command "flake8"
+              python-shell-interpreter "python")
+
+
+
 (when (maybe-require-package 'anaconda-mode)
   (after-load 'python
     (add-hook 'python-mode-hook 'anaconda-mode)
