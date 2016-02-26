@@ -16,7 +16,16 @@
 (setq python-shell-interpreter "python3")
 
 (require-package 'pip-requirements)
+(require-package 'pyvenv)
 
+
+
+;;; Python shell commands
+(setq-default python-check-command "flake8"
+              python-shell-interpreter "python")
+
+
+
 (when (maybe-require-package 'anaconda-mode)
   (with-eval-after-load 'python
     ;; Anaconda doesn't work on remote servers without some work, so
