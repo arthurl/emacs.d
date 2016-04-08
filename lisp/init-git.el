@@ -16,6 +16,8 @@
 (when (maybe-require-package 'magit)
   (setq-default magit-diff-refine-hunk 'all)
   (setq-default magit-diff-visit-prefer-worktree t)
+  (setq-default magit-log-arguments '("--graph" "--color" "--decorate" "-n256")
+                magit-merge-arguments '("--no-ff"))
 
   ;; Hint: customize `magit-repository-directories' so that you can use C-u M-F12 to
   ;; quickly open magit on any one of your projects.
