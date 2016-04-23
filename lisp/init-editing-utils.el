@@ -43,6 +43,26 @@
 
 (add-hook 'after-init-hook 'transient-mark-mode)
 
+;; fill-column controls the column in which text is wrapped
+(setq-default fill-column 80)
+
+;; remove requirement for double space to demarcate end of sentences
+(setq-default sentence-end-double-space nil)
+
+;; This `word-wrap` method respects the original '\n'.
+;; See C-v h word-wrap
+(setq-default word-wrap t)
+
+;; Use I bar instead of block for cursor. This isn't the 1970s.
+(setq-default cursor-type 'bar)
+
+;; Scroll window horizontally when cursor is close to the edge, such that cursor
+;; is at 10% window width away from edge.
+(setq-default hscroll-step 0.1)
+
+;; Don't hide the actual error msg with the noisy "next locus from <buffer>"
+(setq-default next-error-verbose nil)
+
 
 
 ;; Huge files
@@ -154,6 +174,7 @@
 
 (global-set-key (kbd "C-.") 'set-mark-command)
 (global-set-key (kbd "C-x C-.") 'pop-global-mark)
+(global-set-key (kbd "C-,") 'pop-to-mark-command)
 
 (when (maybe-require-package 'avy)
   (global-set-key (kbd "C-;") 'avy-goto-char-timer))
