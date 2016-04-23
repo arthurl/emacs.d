@@ -33,6 +33,23 @@
 
 (transient-mark-mode t)
 
+;; fill-column controls the column in which text is wrapped
+(setq-default fill-column 80)
+
+;; remove requirement for double space to demarcate end of sentences
+(setq-default sentence-end-double-space nil)
+
+;; This `word-wrap` method respects the original '\n'.
+;; See C-v h word-wrap
+(setq-default word-wrap t)
+
+;; Use I bar instead of block for cursor. This isn't the 1970s.
+(setq-default cursor-type 'bar)
+
+;; Scroll window horizontally when cursor is close to the edge, such that cursor
+;; is at 10% window width away from edge.
+(setq-default hscroll-step 0.1)
+
 
  ;;; A simple visible bell which works in all terminal types
 
