@@ -5,6 +5,10 @@
 (add-to-list 'completion-styles 'initials t)
 ;; Stop completion-at-point from popping up completion buffers so eagerly
 (setq completion-cycle-threshold 5)
+;; Idle time before auto complete kicks in. Default 0.5
+(setq-default company-idle-delay 0.1)
+;; Minimum length before auto complete activates. Default 3
+;(setq-default company-minimum-prefix-length 3)
 
 
 (when (maybe-require-package 'company)
