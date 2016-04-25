@@ -351,4 +351,48 @@ With arg N, insert N newlines."
     (diminish 'typo-mode " T’")))
 
 
+
+;;; Edit current file with sudo
+;; See https://www.emacswiki.org/emacs/TrampMode#toc31
+;; See https://emacs.stackexchange.com/questions/12235/edit-file-as-root-over-when-already-using-tramp
+(defun arthur/tramp-sudo-edit-current-file ()
+  "Open current file as root user."
+  (interactive)
+  (let ((position (point))
+        (buffer-file-or-dir-name (or buffer-file-name list-buffers-directory)))
+    (find-alternate-file
+     (if (file-remote-p buffer-file-or-dir-name)
+         (let ((vec (tramp-dissect-file-name buffer-file-or-dir-name)))
+           (tramp-make-tramp-file-name
+            "sudo"
+            ""
+            (tramp-file-name-host vec)
+            (tramp-file-name-localname vec)
+            (let ((tramp-postfix-host-format "|")
+                  (tramp-prefix-format))
+              (tramp-make-tramp-file-name
+               ;; Not all methods are supported for multi-hops. So, force the
+               ;; use "ssh" instead of "(tramp-file-name-method vec)".
+               "ssh"
+               (tramp-file-name-user vec)
+               (tramp-file-name-host vec)
+               ""
+               (tramp-file-name-hop vec)))))
+       (concat "/sudo:localhost:" buffer-file-or-dir-name)))
+    (goto-char position)))
+
+(defun arthur/sudo-show-warning-in-header-line ()
+  "Display warning when accessing file as another user with sudo."
+  (let ((buffer-file-or-dir-name (or buffer-file-name list-buffers-directory)))
+    (when (and (fboundp 'tramp-tramp-file-p)
+               (tramp-tramp-file-p buffer-file-or-dir-name))
+      (let ((vec (tramp-dissect-file-name buffer-file-or-dir-name)))
+        (when (string= "sudo" (tramp-file-name-method vec))
+          (let* ((user-name-upcase (upcase (tramp-file-name-user vec)))
+                 (warning-message (concat " EDITING AS " user-name-upcase " ")))
+            (arthur/show-warning-in-header-line warning-message)))))))
+(add-hook 'find-file-hook 'arthur/sudo-show-warning-in-header-line)
+(add-hook 'dired-mode-hook 'arthur/sudo-show-warning-in-header-line)
+
+
 (provide 'init-editing-utils)

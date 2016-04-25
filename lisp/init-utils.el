@@ -73,4 +73,15 @@
       (browse-url (concat "file://" file-name)))))
 
 
+
+;;; Show warning in header-line
+(defun arthur/show-warning-in-header-line (warning-msg)
+  "Display a warning in header line of the current buffer."
+  (let* ((bracket-len (/ (- (window-total-width nil 'ceiling) (length warning-msg)) 2))
+         (bracket (make-string bracket-len ?·))
+         (warning (concat bracket warning-msg bracket)))
+    (setq header-line-format
+          (propertize warning 'face 'font-lock-warning-face))))
+
+
 (provide 'init-utils)
