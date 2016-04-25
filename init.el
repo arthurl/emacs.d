@@ -40,6 +40,9 @@
 (require 'init-site-lisp) ;; Must come before elpa, as it may provide package.el
 ;; Calls (package-initialize)
 (require 'init-elpa)      ;; Machinery for installing required packages
+
+;; Disable warning at startup when env vars are set in .bashrc
+(setq exec-path-from-shell-check-startup-files nil)
 (require 'init-exec-path) ;; Set up $PATH
 
 
