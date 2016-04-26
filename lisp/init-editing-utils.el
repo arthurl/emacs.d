@@ -50,6 +50,13 @@
 ;; is at 10% window width away from edge.
 (setq-default hscroll-step 0.1)
 
+;;----------------------------------------------------------------------------
+;; TRAMP
+;;----------------------------------------------------------------------------
+;; Auto-save files locally to prevent delays in editing remote files
+(setq tramp-auto-save-directory temporary-file-directory)
+;; Note: Backups are already disabled globally in this configuration
+
 
  ;;; A simple visible bell which works in all terminal types
 
