@@ -63,6 +63,13 @@
 ;; Don't hide the actual error msg with the noisy "next locus from <buffer>"
 (setq-default next-error-verbose nil)
 
+;;----------------------------------------------------------------------------
+;; TRAMP
+;;----------------------------------------------------------------------------
+;; Auto-save files locally to prevent delays in editing remote files
+(setq tramp-auto-save-directory temporary-file-directory)
+;; Note: Backups are already disabled globally in this configuration
+
 
 
 ;; Huge files
