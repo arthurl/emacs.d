@@ -3,6 +3,7 @@
 (require-package 'ruby-hash-syntax)
 
 (add-auto-mode 'ruby-mode
+               "Vagrantfile\\'"
                "Rakefile\\'" "\\.rake\\'" "\\.rxml\\'"
                "\\.rjs\\'" "\\.irbrc\\'" "\\.pryrc\\'" "\\.builder\\'" "\\.ru\\'"
                "\\.gemspec\\'" "Gemfile\\'" "Kirkfile\\'")
