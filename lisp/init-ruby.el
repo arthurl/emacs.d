@@ -6,6 +6,7 @@
 (require-package 'ruby-hash-syntax)
 
 (add-auto-mode 'ruby-mode
+               "Vagrantfile\\'"
                "\\.rxml\\'"
                "\\.rjs\\'" "\\.irbrc\\'" "\\.pryrc\\'" "\\.builder\\'" "\\.ru\\'"
                "\\.gemspec\\'" "Kirkfile\\'")
