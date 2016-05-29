@@ -110,5 +110,15 @@ BUFFER and ALIST are as for `display-buffer-full-frame'."
       (browse-url (concat "file://" file-name)))))
 
 
+
+;;; Kill emacs process
+(defun kill-process-interactive ()
+  "Deletes a currently running process. Completion provided."
+  (interactive)
+  (let ((pname (completing-read "Process Name: "
+                                (mapcar 'process-name (process-list)))))
+    (delete-process (get-process pname))))
+
+
 (provide 'init-utils)
 ;;; init-utils.el ends here
