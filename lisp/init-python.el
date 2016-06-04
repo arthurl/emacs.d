@@ -26,17 +26,26 @@
 
 
 
+;;; Anaconda-mode
 (when (maybe-require-package 'anaconda-mode)
   (with-eval-after-load 'python
     ;; Anaconda doesn't work on remote servers without some work, so
     ;; by default we enable it only when working locally.
     (add-hook 'python-mode-hook
               (lambda () (unless (file-remote-p default-directory)
+                      (when-let (venv-var (getenv "VIRTUAL_ENV"))
+                        (message (concat "Anaconda-mode on virtualenv: " venv-var)))
                            (anaconda-mode 1))))
     (add-hook 'anaconda-mode-hook
               (lambda ()
                 (anaconda-eldoc-mode (if anaconda-mode 1 0)))))
   (with-eval-after-load 'anaconda-mode
+    (diminish 'anaconda-mode)
+    ;; Use standard keys for code navigation
+    (define-key anaconda-mode-map (kbd "M-*") nil)
+    (define-key anaconda-mode-map (kbd "M-[") #'anaconda-mode-go-back)
+    (define-key anaconda-mode-map (kbd "M-/") #'anaconda-mode-find-assignments)
+    (define-key anaconda-mode-map (kbd "M-,") #'anaconda-mode-find-references)
     (define-key anaconda-mode-map (kbd "M-?") nil))
   (when (maybe-require-package 'company-anaconda)
     (with-eval-after-load 'company
