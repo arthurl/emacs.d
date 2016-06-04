@@ -14,10 +14,21 @@
 
 
 
+;;; Anaconda-mode
 (when (maybe-require-package 'anaconda-mode)
-  (after-load 'python
-    (add-hook 'python-mode-hook 'anaconda-mode)
-    (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+  (add-hook 'python-mode-hook
+            (lambda () (let ((venv-var (getenv "VIRTUAL_ENV")))
+                    (when venv-var
+                      (message (concat "Anaconda-mode on virtualenv: " venv-var)))
+                    (anaconda-mode)
+                    (anaconda-eldoc-mode))))
+  (after-load 'anaconda-mode
+    (diminish 'anaconda-mode)
+    ;; Use standard keys for code navigation
+    (define-key anaconda-mode-map (kbd "M-*") nil)
+    (define-key anaconda-mode-map (kbd "M-[") #'anaconda-mode-go-back)
+    (define-key anaconda-mode-map (kbd "M-/") #'anaconda-mode-find-assignments)
+    (define-key anaconda-mode-map (kbd "M-,") #'anaconda-mode-find-references))
   (when (maybe-require-package 'company-anaconda)
     (after-load 'company
       (add-hook 'python-mode-hook
