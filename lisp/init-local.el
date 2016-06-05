@@ -14,6 +14,16 @@
         (default-directory "/ssh:3sec.arthur.li:"))  ;; TODO: prompt for user and host
     (shell)))
 
+;; Include paths for cmake-ide
+;; see: https://langui.sh/2015/07/24/osx-clang-include-lib-search-paths/
+(setq cmake-ide-flags-c '("-I/usr/local/include"
+                          "-I/Library/Developer/CommandLineTools/usr/lib/clang/7.3.0/include"
+                          "-I/Library/Developer/CommandLineTools/usr/include"
+                          "-I/usr/include"
+                          "-DNDEBUG")
+      cmake-ide-flags-c++ (cons "-I/Library/Developer/CommandLineTools/usr/include/c++/v1"
+                                cmake-ide-flags-c))
+
 ;; Eglot
 (with-eval-after-load 'eglot
   (setq eglot-confirm-server-initiated-edits nil))
