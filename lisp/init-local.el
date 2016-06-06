@@ -14,6 +14,14 @@
 ;; Disable lax space matching
 (setq search-whitespace-regexp nil)
 
+;; Font
+;; see format: https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html
+(set-face-font 'default "Iosevka-11")  ;; 59 x 118
+;;(set-face-font 'default "Fira Mono-10")  ;; 67 x 102
+;;(set-face-font 'default "Source Code Pro-10")  ;; 64 x 102
+(set-face-font 'variable-pitch "Fira Sans Light-12")
+(face-spec-set 'fixed-pitch '((t . (:inherit default))) 'face-defface-spec)
+
 
 
 ;;; Writing and language
