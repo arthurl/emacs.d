@@ -3,6 +3,17 @@
 ;; Markdown
 (setq markdown-command "pandoc -f markdown+tex_math_single_backslash+smart -t html -s --mathjax --highlight-style=pygments")
 
+;; Shell
+;; For remote shells
+(setq explicit-shell-file-name "/usr/local/bin/bash")
+
+(defun remote-shell ()
+  "Doc"
+  (interactive)
+  (let ((explicit-shell-file-name "/bin/bash")
+        (default-directory "/ssh:3sec.arthur.li:"))  ;; TODO: prompt for user and host
+    (shell)))
+
 ;; Eglot
 (with-eval-after-load 'eglot
   (setq eglot-confirm-server-initiated-edits nil))
