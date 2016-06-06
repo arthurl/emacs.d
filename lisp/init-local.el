@@ -14,6 +14,12 @@
 ;; Disable lax space matching
 (setq search-whitespace-regexp nil)
 
+;; Font
+;; see format: https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html
+(set-face-font 'default "Inconsolata-13:width=semi-condensed")
+(set-face-font 'variable-pitch "Charter-13")
+(face-spec-set 'fixed-pitch '((t . (:inherit default))) 'face-defface-spec)
+
 
 
 ;;; Writing and language
