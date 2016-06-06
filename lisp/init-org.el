@@ -352,7 +352,7 @@ typical word processor."
      (dot . t)
      (emacs-lisp . t)
      (gnuplot . t)
-     (haskell . nil)
+     (haskell . t)
      (latex . t)
      (ledger . t)
      (ocaml . nil)
@@ -363,6 +363,20 @@ typical word processor."
      (,(if (locate-library "ob-sh") 'sh 'shell) . t)
      (sql . nil)
      (sqlite . t))))
+
+
+
+;;; Formatting in org-mode
+
+;; Syntax highlighting in code bocks in org-mode
+(setq-default org-src-fontify-natively t)
+
+;; Preserve whitespace when tangling
+;; see http://orgmode.org/manual/Editing-source-code.html
+(setq-default org-src-preserve-indentation t)
+
+;; Use different bullet for sub-lists
+(setq-default org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+")))
 
 
 (provide 'init-org)
