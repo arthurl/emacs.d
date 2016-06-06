@@ -1,5 +1,8 @@
 ;;; Mode customisations
 
+;; Markdown
+(setq markdown-command "pandoc -f markdown+tex_math_single_backslash+smart -t html -s --mathjax --highlight-style=pygments")
+
 
 
 ;;; Global customisations
