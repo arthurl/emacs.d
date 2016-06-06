@@ -13,4 +13,13 @@
 
 (add-hook 'after-make-console-frame-hooks 'sanityinc/console-frame-setup)
 
+
+
+;; Make shell output read-only
+(add-hook 'comint-preoutput-filter-functions (lambda (text) (propertize text 'read-only t)))
+
+(setq-default comint-scroll-to-bottom-on-input t
+              comint-input-ignoredups t)
+
+
 (provide 'init-xterm)
