@@ -333,4 +333,15 @@ With arg N, insert N newlines."
             (diminish 'guide-key-mode)))
 
 
+
+;;; Typo-mode for better typography inc. smart quotes, etc.
+(when (maybe-require-package 'typo)
+  (setq-default typo-language "English")
+  (typo-global-mode 1)
+  ;;(add-hook 'text-mode-hook #'typo-mode)
+  (add-hook 'markdown-mode-hook #'typo-mode)
+  (after-load 'typo
+    (diminish 'typo-mode " T’")))
+
+
 (provide 'init-editing-utils)
