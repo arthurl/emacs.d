@@ -285,5 +285,15 @@ ORIG is the advised function, which is called with its ARGS."
 (advice-add 'kmacro-call-macro :around 'sanityinc/disable-features-during-macro-call)
 
 
+
+;;; Typo-mode for better typography inc. smart quotes, etc.
+(when (maybe-require-package 'typo)
+  (setq-default typo-language "English")
+  (typo-global-mode 1)
+  (add-hook 'markdown-mode-hook #'typo-mode)
+  (with-eval-after-load 'typo
+    (diminish 'typo-mode " T’")))
+
+
 (provide 'init-editing-utils)
 ;;; init-editing-utils.el ends here
