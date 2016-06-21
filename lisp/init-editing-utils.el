@@ -319,5 +319,13 @@ ORIG is the advised function, which is called with its ARGS."
   (diminish 'typo-mode " T’"))
 
 
+
+;;; Highlights `FIXME', `TODO', `BUG' keywords in comments
+;; See `font lock mode' in Emacs manual
+(add-hook 'prog-mode-hook
+          (lambda () (font-lock-add-keywords
+                 nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+
 (provide 'init-editing-utils)
 ;;; init-editing-utils.el ends here
