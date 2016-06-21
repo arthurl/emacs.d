@@ -352,6 +352,14 @@ With arg N, insert N newlines."
 
 
 
+;;; Highlights `FIXME', `TODO', `BUG' keywords in comments
+;; See `font lock mode' in Emacs manual
+(add-hook 'prog-mode-hook
+          (lambda () (font-lock-add-keywords
+                 nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+
+
 ;;; Edit current file with sudo
 ;; See https://www.emacswiki.org/emacs/TrampMode#toc31
 ;; See https://emacs.stackexchange.com/questions/12235/edit-file-as-root-over-when-already-using-tramp
