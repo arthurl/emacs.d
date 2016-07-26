@@ -3,25 +3,13 @@
 
 
 
-;;; C headers completion
-(require-package 'company-c-headers)
-(after-load 'cc-mode
-  (after-load 'company
-    (after-load 'company-c-headers
-      (add-hook 'c-mode-hook
-                (lambda () (sanityinc/local-push-company-backend 'company-c-headers)))
-      (add-hook 'c++-mode-hook
-                (lambda () (sanityinc/local-push-company-backend 'company-c-headers))))))
-
-
-
 ;;; RTags
 (when (not (find-if-not #'executable-find '("rc" "rdm" "cmake")))
   (when (maybe-require-package 'rtags)
     ;;(setq-default rtags-socket-file (expand-file-name "~/.rdm"))
-    (setq-default rtags-autostart-diagnostics t)
+    (setq-default rtags-autostart-diagnostics nil)
     ;;(rtags-diagnostics)
-    (setq-default rtags-completions-enabled t)
+    (setq-default rtags-completions-enabled nil)
     (add-hook
      'c-initialization-hook
      (lambda ()
@@ -52,6 +40,58 @@
       (define-key c++-mode-map (kbd "M-,") #'rtags-find-references-at-point)
       (define-key c++-mode-map (kbd "M-[") #'rtags-location-stack-back)
       (define-key c++-mode-map (kbd "M-]") #'rtags-location-stack-forward))))
+
+
+
+;;; Irony-mode
+(when (executable-find "cmake")
+  (when (maybe-require-package 'irony)
+    (add-hook 'c-mode-hook #'irony-mode)
+    (add-hook 'c++-mode-hook #'irony-mode)
+    (add-hook 'objc-mode-hook #'irony-mode)
+
+    ;; replace the `completion-at-point' and `complete-symbol' bindings in
+    ;; irony-mode's buffers by irony-mode's function
+    (add-hook 'irony-mode-hook
+              (lambda ()
+                (define-key irony-mode-map [remap completion-at-point]
+                  #'irony-completion-at-point-async)
+                (define-key irony-mode-map [remap complete-symbol]
+                  #'irony-completion-at-point-async)))
+    ;; Note: cmake-ide is used to configure irony-mode compile options.
+    (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options)
+
+    ;;; Company-irony-c-headers
+    ;; Note that `sanityinc/local-push-company-backend' prepends the new
+    ;; backend to the list. However, hooks are executed from last to first.
+    ;; Hence `company-irony-c-headers' must be added BEFORE `company-irony'
+    ;; backend.
+    (when (maybe-require-package 'company-irony-c-headers)
+      (after-load 'cc-mode
+        (after-load 'company
+          (add-hook 'irony-mode-hook
+                    (lambda () (sanityinc/local-push-company-backend 'company-irony-c-headers))))))
+
+    ;;; Company-irony
+    (when (maybe-require-package 'company-irony)
+      (after-load 'cc-mode
+        (after-load 'company
+          (add-hook 'irony-mode-hook
+                    (lambda () (sanityinc/local-push-company-backend 'company-irony))))))
+
+    ;;; Flycheck-irony
+    (when (maybe-require-package 'flycheck-irony)
+      ;; Disable clang and gcc flycheckers if flycheck-irony is available
+      (add-hook 'irony-mode-hook
+                (lambda () (setq flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))))
+      (after-load 'flycheck
+        (flycheck-irony-setup)))
+
+    ;;; Irony-eldoc
+    (when (maybe-require-package 'irony-eldoc)
+      (add-hook 'irony-mode-hook #'irony-eldoc))
+
+    ))
 
 
 
