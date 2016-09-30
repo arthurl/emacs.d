@@ -115,6 +115,7 @@
 (require 'init-common-lisp)
 (require 'init-tex)
 (require 'init-c)
+(require 'init-java)
 
 (when *spell-check-support-enabled*
   (require 'init-spelling))
