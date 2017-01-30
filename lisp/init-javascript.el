@@ -1,4 +1,8 @@
 (maybe-require-package 'json-mode)
+(when (maybe-require-package 'eval-in-repl)
+  ;; Need to load before js2-mode to avoid clubbing js2-mode's defaults.
+  ;; js-comint requires js3-mode...
+  (maybe-require-package 'js3-mode))
 (maybe-require-package 'js2-mode)
 (maybe-require-package 'coffee-mode)
 
@@ -14,11 +18,30 @@
 ;; Need to first remove from list if present, since elpa adds entries too, which
 ;; may be in an arbitrary order
 (eval-when-compile (require 'cl))
-(setq auto-mode-alist (cons `("\\.\\(js\\|es6\\)\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
+(setq auto-mode-alist (cons `("\\.\\(jsx?\\|es6\\)\\(\\.erb\\)?\\'" . ,preferred-javascript-mode)
                             (loop for entry in auto-mode-alist
                                   unless (eq preferred-javascript-mode (cdr entry))
                                   collect entry)))
 
+;; web-mode
+(setq-default web-mode-markup-indent-offset preferred-javascript-indent-level
+              web-mode-css-indent-offset preferred-javascript-indent-level
+              web-mode-code-indent-offset preferred-javascript-indent-level
+              web-mode-attr-indent-offset preferred-javascript-indent-level)
+(setq-default web-mode-enable-auto-pairing t
+              web-mode-enable-css-colorization t
+              web-mode-enable-comment-keywords nil ;; not sure if this still works?
+              web-mode-enable-current-element-highlight t)
+
+(when (maybe-require-package 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
+
+  (after-load 'web-mode
+    (setq-default web-mode-comment-formats (remove '("javascript" . "/*") web-mode-comment-formats))
+    (add-to-list 'web-mode-comment-formats '("javascript" . "//")))
+
+  (after-load 'flycheck
+    (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
 ;; js2-mode
 
@@ -82,6 +105,12 @@
   (define-key inferior-js-minor-mode-map "\C-cb" 'js-send-buffer)
   (define-key inferior-js-minor-mode-map "\C-c\C-b" 'js-send-buffer-and-go)
   (define-key inferior-js-minor-mode-map "\C-cl" 'js-load-file-and-go)
+  (define-key inferior-js-minor-mode-map "\C-c\C-z" #'switch-to-js)
+
+  (when (maybe-require-package 'eval-in-repl)
+    ;; js-comint requires js3-mode...
+    (when (maybe-require-package 'js3-mode)
+      (define-key inferior-js-minor-mode-map (kbd "<C-return>") #'eir-eval-in-javascript)))
 
   (define-minor-mode inferior-js-keys-mode
     "Bindings for communicating with an inferior js interpreter."
@@ -98,6 +127,16 @@
   (after-load 'skewer-mode
     (add-hook 'skewer-mode-hook
               (lambda () (inferior-js-keys-mode -1)))))
+
+
+
+(when (maybe-require-package 'add-node-modules-path)
+  (after-load 'js-mode
+    (add-hook 'js-mode-hook #'add-node-modules-path))
+  (after-load 'js2-mode
+    (add-hook 'js2-mode-hook #'add-node-modules-path))
+  (after-load 'web-mode
+    (add-hook 'web-mode-hook #'add-node-modules-path)))
 
 
 (provide 'init-javascript)
