@@ -4,6 +4,9 @@
 
 ;;; Global customisations
 
+;; Disable lax space matching
+(setq search-whitespace-regexp nil)
+
 
 
 ;;; Writing and language
