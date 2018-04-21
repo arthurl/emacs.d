@@ -52,5 +52,10 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+;; Unmark all
+(with-eval-after-load 'ibuffer
+  (define-key ibuffer-mode-map (kbd "U") 'ibuffer-unmark-all))
+
+
 (provide 'init-ibuffer)
 ;;; init-ibuffer.el ends here
