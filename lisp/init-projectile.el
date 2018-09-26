@@ -14,7 +14,17 @@
   (with-eval-after-load 'projectile
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-  (maybe-require-package 'ibuffer-projectile))
+  (maybe-require-package 'ibuffer-projectile)
+
+  ;; More reasonable time to expire remote cache
+  (setq-default projectile-file-exists-remote-cache-expire (* 3 60))
+  ;; Open project dir when switching to project
+  (setq-default projectile-switch-project-action #'projectile-dired)
+
+  ;; projectile-project-p is not autoloaded in the library :/
+  (autoload #'projectile-project-p "projectile")
+  ;; projectile-project-root is not autoloaded in the library
+  (autoload #'projectile-project-root "projectile"))
 
 
 (provide 'init-projectile)
