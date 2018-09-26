@@ -7,6 +7,10 @@
 
   ;; Shorter modeline
   (setq-default projectile-mode-line-prefix " Proj")
+  ;; Shorter modeline without showing project name
+  ;;(setq-default projectile-mode-line
+  ;;              '(:eval (when (projectile-project-p)
+  ;;                        (if (file-remote-p default-directory) " PRJ:R" " PRJ"))))
 
   (when (executable-find "rg")
     (setq-default projectile-generic-command "rg --files --hidden"))
