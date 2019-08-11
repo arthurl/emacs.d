@@ -9,6 +9,8 @@
   (when (maybe-require-package 'dante)
     (add-hook 'haskell-mode-hook 'dante-mode)
     (with-eval-after-load 'dante
+      (define-key dante-mode-map (kbd "M-.") 'xref-find-definitions)
+      (define-key dante-mode-map (kbd "M-?") 'xref-find-references)
       (flycheck-add-next-checker 'haskell-dante
                                  '(warning . haskell-hlint))))
 
