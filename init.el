@@ -126,6 +126,7 @@
 (require 'init-common-lisp)
 (require 'init-tex)
 (require 'init-c)
+(require 'init-fsharp)
 
 (when *spell-check-support-enabled*
   (require 'init-spelling))
