@@ -70,6 +70,14 @@
 (setq tramp-auto-save-directory temporary-file-directory)
 ;; Note: Backups are already disabled globally in this configuration
 
+(with-eval-after-load 'tramp
+  ;; For remote nixOS
+  (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
+  ;; Default git executable on windows is a full windows path to local git,
+  ;; which obviously does not work with a remote repository. Note that there is
+  ;; a performance penalty for this setting.
+  (when (eq system-type 'windows-nt) (setq-default magit-git-executable "git")))
+
 
 
 ;; Huge files
