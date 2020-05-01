@@ -19,8 +19,8 @@
   (setq-default ag-highlight-search t)
   (global-set-key (kbd "M-?") 'ag-project))
 
-(when (and (executable-find "rg")
-           (maybe-require-package 'rg))
+(when (maybe-require-package 'rg)
+  (setq-default rg-executable "rg")
   (global-set-key (kbd "M-?") 'rg-project))
 
 
