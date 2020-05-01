@@ -47,6 +47,7 @@
       (diminish 'counsel-mode)))
   (add-hook 'after-init-hook 'counsel-mode)
 
+  ;; TODO: make this work with TRAMP
   (when (maybe-require-package 'projectile)
     (let ((search-function
            (cond
