@@ -29,6 +29,24 @@
 
 
 
+(defun arthur/list-insert-last-inplace (listA v &optional n)
+  "Insert element to list (as listA) from back."
+  (let ((splitCell (last listA (1+ (if n n 0)))))
+    (setcdr splitCell (cons v (cdr splitCell)))
+    listA))
+
+(when (maybe-require-package 'dired-rsync)
+  (setq-default dired-rsync-options "-achzP --delete --info=progress2")
+  (with-eval-after-load 'dired
+    (define-key dired-mode-map (kbd "C-c C-r") 'dired-rsync)
+    (add-hook 'dired-mode-hook
+              (lambda () (unless (eq 'dired-rsync-modeline-status (car (last mode-line-format 2)))
+                           ;; Copy list since the buffer-local variable is just a reference
+                           (set (make-local-variable 'mode-line-format) (copy-sequence mode-line-format))
+                           (arthur/list-insert-last-inplace mode-line-format 'dired-rsync-modeline-status 1))))))
+
+
+
 ;; Use human readable file sizes. Supported by OS X.
 (setq-default dired-listing-switches "-alh")
 
