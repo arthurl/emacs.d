@@ -81,9 +81,7 @@
 (require 'init-whitespace)
 
 (require 'init-vc)
-(require 'init-darcs)
 (require 'init-git)
-(require 'init-github)
 
 (require 'init-projectile)
 
