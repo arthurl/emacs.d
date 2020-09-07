@@ -13,14 +13,14 @@
     (add-hook
      'c-initialization-hook
      (lambda ()
-       (after-load 'rtags
-         (after-load 'company
+       (with-eval-after-load 'rtags
+         (with-eval-after-load 'company
            (when rtags-completions-enabled
              (push 'company-rtags company-backends))))))
-    (after-load 'cc-mode
-      (after-load 'rtags  ;; Needed only if rtags is not required
+    (with-eval-after-load 'cc-mode
+      (with-eval-after-load 'rtags  ;; Needed only if rtags is not required
         ;; Enable guide-key for rtags prefix
-        (after-load 'guide-key (add-to-list 'guide-key/guide-key-sequence "C-c r"))
+        (with-eval-after-load 'guide-key (add-to-list 'guide-key/guide-key-sequence "C-c r"))
         (rtags-enable-standard-keybindings c-mode-map "C-c r ")
         (rtags-enable-standard-keybindings c++-mode-map "C-c r ")
         (define-key rtags-mode-map (kbd "q") #'quit-window)
@@ -63,20 +63,20 @@
     ;; executed from last to first. Hence `company-irony-c-headers' must be
     ;; added BEFORE `company-irony' backend.
     (when (maybe-require-package 'company-irony-c-headers)
-      (after-load 'cc-mode
-        (after-load 'company (push 'company-irony-c-headers company-backends))))
+      (with-eval-after-load 'cc-mode
+        (with-eval-after-load 'company (push 'company-irony-c-headers company-backends))))
 
     ;;; Company-irony
     (when (maybe-require-package 'company-irony)
-      (after-load 'cc-mode
-        (after-load 'company (push 'company-irony company-backends))))
+      (with-eval-after-load 'cc-mode
+        (with-eval-after-load 'company (push 'company-irony company-backends))))
 
     ;;; Flycheck-irony
     (when (maybe-require-package 'flycheck-irony)
       ;; Disable clang and gcc flycheckers if flycheck-irony is available
       (add-hook 'irony-mode-hook
                 (lambda () (setq flycheck-disabled-checkers '(c/c++-clang c/c++-gcc))))
-      (after-load 'flycheck
+      (with-eval-after-load 'flycheck
         (flycheck-irony-setup)))
 
     ;;; Irony-eldoc
@@ -94,7 +94,7 @@
     (setq-default cmake-ide-flags-c '("-I/usr/local/include" "-I/usr/include" "-DNDEBUG")
                   cmake-ide-flags-c++ cmake-ide-flags-c
                   cmake-ide-build-dir "build")
-    (after-load 'cc-mode
+    (with-eval-after-load 'cc-mode
       ;; Needed so that cmake-ide starts rdm. Tries to detect if rtags.el
       ;; package exists without loading rtags by testing autoloaded function.
       (when (not (find-if-not #'executable-find '("rc" "rdm")))
@@ -118,7 +118,7 @@
 ;; see: https://github.com/google/styleguide/blob/gh-pages/google-c-style.el
 (when (maybe-require-package 'google-c-style)
   (autoload #'google-c-lineup-expression-plus-4 "google-c-style" nil)
-  (after-load 'cc-vars
+  (with-eval-after-load 'cc-vars
     (c-add-style "Google" google-c-style)
     (setf (cdr (assoc 'other c-default-style)) "Google")))
 
