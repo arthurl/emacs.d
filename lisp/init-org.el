@@ -66,7 +66,11 @@
   (with-eval-after-load 'writeroom-mode
     (setq-default writeroom-extra-line-spacing 0.2)
     (setq-default writeroom-global-effects (delete 'writeroom-set-fullscreen writeroom-global-effects))
-    (setq-default writeroom-local-effects '(visual-line-mode buffer-face-mode))))
+    (setq-default writeroom-local-effects '(visual-line-mode))
+    (add-hook 'writeroom-mode-enable-hook
+              (lambda () (buffer-face-set '(:inherit variable-pitch :height 150))))
+    (add-hook 'writeroom-mode-disable-hook
+              (lambda () (buffer-face-mode -1)))))
 
 (define-minor-mode prose-mode
   "Set up a buffer for prose editing.
@@ -76,8 +80,8 @@ typical word processor."
   :init-value nil :lighter " Prose" :keymap nil
   (if prose-mode
       (progn
-        (when (eq major-mode 'org)
-          (kill-local-variable 'buffer-face-mode-face))
+        ;;(when (eq major-mode 'org-mode)
+        ;;  (kill-local-variable 'buffer-face-mode-face))
         (when (fboundp 'writeroom-mode)
           (writeroom-mode 1))
         (setq cursor-type 'bar)
