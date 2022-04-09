@@ -138,6 +138,7 @@
 (require 'init-sly)
 (require 'init-clojure)
 (require 'init-clojure-cider)
+(require 'init-tex)
 
 (when *spell-check-support-enabled*
   (require 'init-spelling))
