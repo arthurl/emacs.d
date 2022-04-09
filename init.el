@@ -122,6 +122,7 @@
 (require 'init-clojure)
 (require 'init-clojure-cider)
 (require 'init-common-lisp)
+(require 'init-tex)
 
 (when *spell-check-support-enabled*
   (require 'init-spelling))
