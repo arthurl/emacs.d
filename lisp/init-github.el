@@ -7,6 +7,7 @@
 (maybe-require-package 'yagist)
 (require-package 'bug-reference-github)
 (add-hook 'prog-mode-hook 'bug-reference-prog-mode)
+(add-hook 'text-mode-hook #'bug-reference-mode)
 
 (maybe-require-package 'github-clone)
 (maybe-require-package 'forge)
