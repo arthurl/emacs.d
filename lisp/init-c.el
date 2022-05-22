@@ -4,6 +4,7 @@
     :program "nix-shell"
     :args '("--pure" "-p" "clang" "--run" "clang-format")))
 
+(setq-default flycheck-clang-language-standard "c++23")
 
 
 ;;; Indenting
