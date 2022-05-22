@@ -1,3 +1,11 @@
+;;; Code formatter
+(when (maybe-require-package 'reformatter)
+  (reformatter-define clang-format
+    :program "nix-shell"
+    :args '("--pure" "-p" "clang" "--run" "clang-format")))
+
+
+
 ;;; Indenting
 ;; Set default to K&R
 (setq-default
