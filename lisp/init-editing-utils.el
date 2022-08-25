@@ -339,6 +339,10 @@ ORIG is the advised function, which is called with its ARGS."
 
 
 
+(when (maybe-require-package 'sudo-edit)
+  (add-hook 'after-init-hook #'sudo-edit-indicator-mode))
+
+
 ;;; Typo-mode for better typography inc. smart quotes, etc.
 (when (maybe-require-package 'typo)
   (setq-default typo-language "English")
