@@ -19,8 +19,11 @@
       (define-key purescript-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
 
   (when (maybe-require-package 'reformatter)
-    (reformatter-define purty
-      :program "purty" :lighter " purty"))
+    (with-eval-after-load 'purescript-mode
+      (reformatter-define purs-tidy
+        :program "purs-tidy"
+        :args `("format" "--indent" ,(number-to-string purescript-indent-spaces))
+        :lighter "purs-tidy")))
 
   (when (maybe-require-package 'eglot)
     (with-eval-after-load 'purescript-mode
