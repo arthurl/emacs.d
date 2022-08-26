@@ -12,11 +12,22 @@
   (add-hook 'purescript-mode-hook (apply-partially 'prettify-symbols-mode -1))
 
   (with-eval-after-load 'purescript-mode
-    (define-key purescript-mode-map (kbd "C-o") 'open-line))
+    (define-key purescript-mode-map (kbd "C-o") 'open-line)
+    (with-eval-after-load 'flymake
+      ;; Use compilation-mode's keybindings for flymake
+      (define-key purescript-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
+      (define-key purescript-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
 
   (when (maybe-require-package 'reformatter)
     (reformatter-define purty
       :program "purty" :lighter " purty"))
+
+  (when (maybe-require-package 'eglot)
+    (with-eval-after-load 'purescript-mode
+      ;; hook must run only after add-node-modules-path
+      (add-hook 'purescript-mode-hook 'eglot-ensure)
+      (with-eval-after-load 'eglot
+        (define-key purescript-mode-map (kbd "C-'") 'eglot-code-actions))))
 
   (when (maybe-require-package 'psci)
     (add-hook 'purescript-mode-hook 'inferior-psci-mode))
