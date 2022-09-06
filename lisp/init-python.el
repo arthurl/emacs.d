@@ -49,5 +49,17 @@
 (with-eval-after-load 'projectile
   (add-to-list 'projectile-project-root-files "pyproject.toml"))
 
+(with-eval-after-load 'python
+  (with-eval-after-load 'flymake
+    ;; Use compilation-mode's keybindings for flymake
+    (define-key python-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
+    (define-key python-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
+
+(with-eval-after-load 'python
+  (when (maybe-require-package 'eglot)
+    (add-hook 'python-mode-hook 'eglot-ensure)
+    (with-eval-after-load 'eglot
+      (define-key python-mode-map (kbd "C-'") 'eglot-code-actions))))
+
 (provide 'init-python)
 ;;; init-python.el ends here
