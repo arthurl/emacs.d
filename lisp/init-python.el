@@ -22,5 +22,18 @@
 (when (maybe-require-package 'reformatter)
   (reformatter-define black :program "black" :args '("-")))
 
+(with-eval-after-load 'python
+  (with-eval-after-load 'flymake
+    ;; Use compilation-mode's keybindings for flymake
+    (define-key python-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
+    (define-key python-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
+
+(with-eval-after-load 'python
+  (when (maybe-require-package 'eglot)
+    ;; if we're using LSP, we don't need other flymake checkers
+    (remove-hook 'flymake-diagnostic-functions 'python-flymake)
+    (add-hook 'python-mode-hook 'eglot-ensure)))
+
+
 (provide 'init-python)
 ;;; init-python.el ends here
