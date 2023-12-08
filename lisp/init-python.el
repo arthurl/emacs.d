@@ -20,6 +20,7 @@
   (defun sanityinc/flymake-ruff-maybe-enable ()
     (when (executable-find "ruff")
       (flymake-ruff-load)))
+  (add-hook 'python-ts-mode-hook 'sanityinc/flymake-ruff-maybe-enable)
   (add-hook 'python-mode-hook 'sanityinc/flymake-ruff-maybe-enable))
 
 (with-eval-after-load 'eglot
@@ -56,13 +57,17 @@
     (add-hook 'python-ts-mode-hook #'arthur/reset-all-flycheck-checkers)
     (add-hook 'python-mode-hook #'arthur/reset-all-flycheck-checkers)
     ;; Use compilation-mode's keybindings for flymake
+    (define-key python-ts-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
+    (define-key python-ts-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)
     (define-key python-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
     (define-key python-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
 
 (with-eval-after-load 'python
   (when (maybe-require-package 'eglot)
+    (add-hook 'python-ts-mode-hook 'eglot-ensure)
     (add-hook 'python-mode-hook 'eglot-ensure)
     (with-eval-after-load 'eglot
+      (define-key python-ts-mode-map (kbd "C-'") 'eglot-code-actions)
       (define-key python-mode-map (kbd "C-'") 'eglot-code-actions))))
 
 (provide 'init-python)
