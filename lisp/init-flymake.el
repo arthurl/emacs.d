@@ -17,6 +17,10 @@
   (add-hook 'prog-mode-hook 'flymake-mode)
   (add-hook 'text-mode-hook 'flymake-mode))
 
+(defun arthur/reset-all-flycheck-checkers ()
+  (setq-local flycheck--automatically-enabled-checkers nil)
+  (setq-local flycheck--automatically-disabled-checkers nil))
+
 (with-eval-after-load 'flymake
   ;; Provide some flycheck-like bindings in flymake mode to ease transition
   (define-key flymake-mode-map (kbd "C-c ! l") 'flymake-show-buffer-diagnostics)
