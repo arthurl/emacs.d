@@ -51,6 +51,8 @@
 
 (with-eval-after-load 'python
   (with-eval-after-load 'flymake
+    ;; for some reason (remove-hook 'flymake-diagnostic-functions 'python-flymake) doesn't work
+    (setq-default python-flymake-command nil)
     ;; Use compilation-mode's keybindings for flymake
     (define-key python-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
     (define-key python-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
