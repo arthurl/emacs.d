@@ -18,7 +18,7 @@
 
 (when (maybe-require-package 'flymake-ruff)
   (defun sanityinc/flymake-ruff-maybe-enable ()
-    (when (executable-find flymake-ruff-program)
+    (when (and (boundp 'flymake-ruff-program) (executable-find flymake-ruff-program))
       (flymake-ruff-load)))
   (add-hook 'python-mode-hook 'sanityinc/flymake-ruff-maybe-enable))
 
