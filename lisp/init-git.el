@@ -17,8 +17,6 @@
   (setq-default magit-diff-refine-hunk 'all)
   (setq-default magit-diff-visit-prefer-worktree t)
 
-  (sanityinc/fullframe-mode 'magit-status-mode)
-
   ;; Hint: customize `magit-repository-directories' so that you can use C-u M-F12 to
   ;; quickly open magit on any one of your projects.
   (global-set-key [(meta f12)] 'magit-status)
