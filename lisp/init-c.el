@@ -6,6 +6,15 @@
 
 (setq-default flycheck-clang-language-standard "c++23")
 
+(with-eval-after-load 'c-ts-mode
+  (when (maybe-require-package 'eglot)
+    (add-hook 'c-ts-mode-hook 'eglot-ensure)
+    (add-hook 'c++-ts-mode-hook 'eglot-ensure)
+    (with-eval-after-load 'eglot
+      (define-key c-ts-mode-map (kbd "C-'") 'eglot-code-actions)
+      (define-key c++-ts-mode-map (kbd "C-'") 'eglot-code-actions))))
+
+
 
 ;;; Indenting
 ;; Set default to K&R
