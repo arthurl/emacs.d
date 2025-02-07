@@ -78,6 +78,10 @@
   ;; a performance penalty for this setting.
   (when (eq system-type 'windows-nt) (setq-default magit-git-executable "git")))
 
+;; Use Control* options in SSH config
+;; WARNING: this variable doesn't do what you might think it does. Read docs!
+(setq-default tramp-use-ssh-controlmaster-options nil)
+
 
 
 ;; Huge files
