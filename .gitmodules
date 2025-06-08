@@ -1,0 +1,3 @@
+[submodule "site-lisp/typoel"]
+	path = site-lisp/typoel
+	url = https://github.com/jorgenschaefer/typoel

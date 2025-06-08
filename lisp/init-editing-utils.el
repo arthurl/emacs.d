@@ -287,12 +287,13 @@ ORIG is the advised function, which is called with its ARGS."
 
 
 ;;; Typo-mode for better typography inc. smart quotes, etc.
-(when (maybe-require-package 'typo)
-  (setq-default typo-language "English")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/typoel"))
+(autoload #'typo-mode "typo" "typo-mode" 't)
+(setq-default typo-language "English")
+(add-hook 'markdown-mode-hook #'typo-mode)
+(with-eval-after-load 'typo
   (typo-global-mode 1)
-  (add-hook 'markdown-mode-hook #'typo-mode)
-  (with-eval-after-load 'typo
-    (diminish 'typo-mode " T’")))
+  (diminish 'typo-mode " T’"))
 
 
 (provide 'init-editing-utils)
