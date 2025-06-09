@@ -25,6 +25,10 @@
 
     (defalias 'hindent-mode 'hindent-on-save-mode)
 
+    (reformatter-define cabal-fmt
+      :program "cabal-fmt"
+      :args '("/dev/stdin"))
+
     (reformatter-define ormolu
       :program "ormolu"
       :args (when (buffer-file-name)
