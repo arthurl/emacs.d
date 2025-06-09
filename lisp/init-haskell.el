@@ -27,6 +27,8 @@
 
     (reformatter-define ormolu
       :program "ormolu"
+      :args (when (buffer-file-name)
+              `("--stdin-input-file" ,buffer-file-name))
       :lighter " Orm"))
 
   (with-eval-after-load 'haskell-mode
