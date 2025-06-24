@@ -6,8 +6,6 @@
   (add-hook 'haskell-mode-hook 'subword-mode)
   (add-hook 'haskell-cabal-mode 'subword-mode)
 
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-
   (add-auto-mode 'haskell-mode "\\.ghci\\'")
 
   ;; Indentation
