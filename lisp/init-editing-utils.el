@@ -309,6 +309,22 @@ ORIG is the advised function, which is called with its ARGS."
 (when (maybe-require-package 'sudo-edit)
   (add-hook 'after-init-hook #'sudo-edit-indicator-mode))
 
+
+
+(when (maybe-require-package 'gptel)
+  (with-eval-after-load 'gptel
+    (setq gptel-default-mode #'markdown-mode
+          gptel-include-reasoning "**Reasoning**")
+    (setf (alist-get 'markdown-mode gptel-prompt-prefix-alist) "**\\*Prompt\\*** "
+          (alist-get 'markdown-mode gptel-response-prefix-alist) "**\\*Response\\*** ")
+
+    (gptel-make-openai "ChatGPT" :key gptel-api-key :request-params '(:service_tier "flex"))
+    (gptel-make-openai "PlatformAI(llmaas)"
+      :host "llmaas.govtext.gov.sg" :endpoint "/gateway/v1/chat/completions" :key gptel-api-key :stream 't
+      :models '(gpt-5.2 claude-opus-4-6 claude-sonnet-4-5 gemini-3-flash-preview gemini-3-pro-preview claude-opus-4-6@20260205 claude-sonnet-4-5@20250929 claude-haiku-4-5@20251001 anthropic.claude-opus-4-6-v1 anthropic.claude-sonnet-4-5-20250929-v1:0))
+    ))
+
+
 
 ;;; Typo-mode for better typography inc. smart quotes, etc.
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/typoel"))
