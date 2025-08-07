@@ -308,6 +308,20 @@ ORIG is the advised function, which is called with its ARGS."
 (when (maybe-require-package 'sudo-edit)
   (add-hook 'after-init-hook #'sudo-edit-indicator-mode))
 
+
+
+(require-package 'gptel)
+(setq gptel-model 'gemini-2.5-pro
+      gptel-backend (gptel-make-gemini "Gemini" :key (gptel-api-key-from-auth-source "generativelanguage.googleapis.com") :stream t))
+(setf (gptel-backend-stream (gptel-get-backend "ChatGPT")) nil
+      (gptel-backend-request-params (gptel-get-backend "ChatGPT")) '(:service_tier "flex"))
+(gptel-make-gh-copilot "Copilot")
+
+(setq gptel-default-mode #'markdown-mode)
+(setf (alist-get 'markdown-mode gptel-prompt-prefix-alist) "**\\*Prompt\\*** "
+      (alist-get 'markdown-mode gptel-response-prefix-alist) "**\\*Response\\*** ")
+
+
 
 ;;; Typo-mode for better typography inc. smart quotes, etc.
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/typoel"))
