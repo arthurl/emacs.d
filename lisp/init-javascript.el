@@ -84,5 +84,40 @@
     (add-hook hook 'inferior-js-keys-mode)))
 
 
+
+(with-eval-after-load 'eglot
+  ;; Add vtsls LSP server
+  (push `(((js-mode :language-id "javascript") (js-ts-mode :language-id "javascript")
+           (tsx-ts-mode :language-id "typescriptreact")
+           (typescript-mode :language-id "typescript") (typescript-ts-mode :language-id "typescript"))
+          . ,(eglot-alternatives
+              '(("vtsls" "--stdio")
+                ("rass ts")
+                ("typescript-language-server" "--stdio"))))
+        eglot-server-programs))
+
+(with-eval-after-load 'js
+  (when (maybe-require-package 'eglot)
+    (add-hook 'js-ts-mode-hook #'eglot-ensure)
+    (with-eval-after-load 'eglot
+      (define-key js-ts-mode-map (kbd "C-'") #'eglot-code-actions)))
+
+  (with-eval-after-load 'flymake
+    ;; Use compilation-mode's keybindings for flymake
+    (define-key js-ts-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
+    (define-key js-ts-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
+
+(with-eval-after-load 'typescript-ts-mode
+  (when (maybe-require-package 'eglot)
+    (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+    (with-eval-after-load 'eglot
+      (define-key typescript-ts-mode-map (kbd "C-'") #'eglot-code-actions)))
+
+  (with-eval-after-load 'flymake
+    ;; Use compilation-mode's keybindings for flymake
+    (define-key typescript-ts-mode-map (kbd "M-g M-n") 'flymake-goto-next-error)
+    (define-key typescript-ts-mode-map (kbd "M-g M-p") 'flymake-goto-prev-error)))
+
+
 (provide 'init-javascript)
 ;;; init-javascript.el ends here
