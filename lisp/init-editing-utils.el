@@ -71,6 +71,7 @@
 ;; Note: Backups are already disabled globally in this configuration
 
 (with-eval-after-load 'tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   ;; For remote nixOS
   (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
   ;; Default git executable on windows is a full windows path to local git,
