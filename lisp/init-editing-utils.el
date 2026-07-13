@@ -218,6 +218,8 @@
 
 (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
 
+(global-set-key [f5] 'revert-buffer)
+
 
 
 ;;; Page break lines
