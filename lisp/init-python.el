@@ -20,7 +20,7 @@
   (defun sanityinc/flymake-ruff-maybe-enable ()
     (when (executable-find "ruff")
       (flymake-ruff-load)))
-  (add-hook 'python-mode-hook 'sanityinc/flymake-ruff-maybe-enable))
+  (add-hook 'python-base-mode-hook 'sanityinc/flymake-ruff-maybe-enable))
 
 (maybe-require-package 'ruff-format)
 (reformatter-define ruff-fix
